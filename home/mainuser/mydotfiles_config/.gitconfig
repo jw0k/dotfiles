@@ -1,0 +1,13 @@
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = true
+    attributesfile = ~/mydotfiles_config/.gitattributes
+    hooksPath = ~/mydotfiles_config/hooks
+[status]
+    showUntrackedFiles = no
+[filter "crypt"]
+    clean = ~/scripts/run_as_sudo_user.sh ~/scripts/crypt_clean.sh
+    smudge = ~/scripts/run_as_sudo_user.sh ~/scripts/crypt_smudge.sh
+[diff "crypt"]
+    textconv = cat

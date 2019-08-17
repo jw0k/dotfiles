@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+echo "running post-checkout script"
+
+if [[ $EUID -ne 0 ]]; then
+    # if not run as root, do nothing
+    echo "running as $EUID (not root), exiting"
+    exit 0
+fi
+
+if [[ -z $SUDO_USER ]]; then
+    # if not run under sudo, do nothing
+    echo "not running under sudo, exiting"
+    exit 0
+fi
+
+# change owner/group of tracked files that are inside home directory:
+TRACKEDFILES=$(git --git-dir=$HOME/.mydotfiles/ --work-tree=/ ls-tree -r HEAD --full-tree --name-only)
+
+while read -r line; do
+    if [[ $line == home/mainuser* ]]; then
+        chown ${SUDO_USER}:${SUDO_USER} "/$line"
+        echo "changing owner/group of /$line to $SUDO_USER"
+    fi
+done <<< $TRACKEDFILES
+
+# change owner/group of git repo:
+chown -R ${SUDO_USER}:${SUDO_USER} /home/mainuser/.mydotfiles
+echo "changing owner/group of /home/mainuser/.mydotfiles to $SUDO_USER"
