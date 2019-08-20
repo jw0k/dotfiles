@@ -9,5 +9,6 @@
 [filter "crypt"]
     clean = ~/scripts/run_as_sudo_user.sh ~/scripts/crypt_clean.sh
     smudge = ~/scripts/run_as_sudo_user.sh ~/scripts/crypt_smudge.sh
+    required
 [diff "crypt"]
     textconv = cat
