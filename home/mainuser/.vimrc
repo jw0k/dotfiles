@@ -163,6 +163,9 @@ highlight Normal guibg=none guifg=#faefca
 highlight GruvboxRed guifg=#fe8019
 highlight link cUserFunction GruvboxBlueBold
 
+"podswietlanie trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=#e53a25
+match ExtraWhitespace /\s\+$/
 
 " Save current view settings on a per-window, per-buffer basis.
 function! AutoSaveWinView()
