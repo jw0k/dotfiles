@@ -1,0 +1,26 @@
+#!/bin/sh
+
+export TERMINAL=alacritty
+#dbus-update-activation-environment --systemd DISPLAY
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+#eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets)
+
+#ssh-agent -k
+#eval $(ssh-agent -s)
+#export SSH_AGENT_PID
+#export SSH_AUTH_SOCK
+
+udiskie &
+numlockx &
+nm-applet &
+unclutter &
+xset dpms 600 600 600 &
+xset r rate 200 60 &
+
+#sleep 5
+#if nmcli general status | grep disconnected >/dev/null; then
+    #nmcli device wifi rescan
+    #nmcli device wifi connect ligo
+#fi
+
