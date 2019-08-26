@@ -1,2 +1,3 @@
 /home/mainuser/testowy filter=crypt diff=crypt
 /home/mainuser/notatki.txt filter=crypt diff=crypt
+/home/mainuser/.histfile.bak filter=crypt diff=crypt
