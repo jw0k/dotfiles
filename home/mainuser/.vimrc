@@ -165,7 +165,9 @@ highlight link cUserFunction GruvboxBlueBold
 
 "podswietlanie trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=#e53a25
-match ExtraWhitespace /\s\+$/
+"match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Save current view settings on a per-window, per-buffer basis.
 function! AutoSaveWinView()
