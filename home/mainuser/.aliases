@@ -23,4 +23,5 @@ alias not='nvim $HOME/notatki.txt'
 alias x='echo $(fc -ln -1) | xclip -r -selection clipboard'
 alias xo='$(fc -ln -1) | xclip -r -selection clipboard'
 alias hiber='i3lock --image $HOME/lock_screen.png ; systemctl hibernate'
-
+alias st='git status'
+alias dst='git --git-dir=$HOME/.mydotfiles/ --work-tree=/ status'
