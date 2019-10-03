@@ -11,8 +11,10 @@ umask 077
 #fi
 
 #export PATH="/usr/lib/ccache/bin:$PATH"
-export PATH="$PATH:/home/mainuser/scripts"
+export PATH="$PATH:/home/mainuser/scripts:/home/jacek/.local/bin"
 export LESS=-j.5R
+export PROMPT_COMMAND="pwd > /tmp/whereami"
+cd $(cat /tmp/whereami)
 
 eval $(thefuck --alias)
 
@@ -62,6 +64,8 @@ add-zsh-hook -Uz preexec (){
 add-zsh-hook -Uz precmd (){
     local WINDOWID=$(xdotool search --pid $PPID)
     i3-msg -q '[id="'"$WINDOWID"'"] title_format "'"$TERMTITLE$(pwd)"'"' 2>/dev/null
+
+    eval "$PROMPT_COMMAND"
 }
 i3-msg -q title_format "$TERMTITLE`pwd`"
 
