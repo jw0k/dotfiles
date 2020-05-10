@@ -3,7 +3,7 @@
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle :compinstall filename '/home/mainuser/.zshrc'
 
-umask 077
+#umask 077
 
 #if [ -n "$DESKTOP_SESSION" ]; then
     #eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
