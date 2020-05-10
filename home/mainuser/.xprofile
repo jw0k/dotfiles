@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export TERMINAL=alacritty
+#export TERMINAL=alacritty
+export TERMINAL=terminator
 #dbus-update-activation-environment --systemd DISPLAY
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
@@ -16,7 +17,9 @@ numlockx &
 nm-applet &
 unclutter &
 xset dpms 600 600 600 &
-xset r rate 200 60 &
+
+#instead of setting keyboard rate here, it is set in /etc/sddm.conf
+#xset r rate 200 60 &
 
 #sleep 5
 #if nmcli general status | grep disconnected >/dev/null; then

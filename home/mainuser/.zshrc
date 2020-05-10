@@ -14,7 +14,11 @@ umask 077
 export PATH="$PATH:/home/mainuser/scripts:/home/jacek/.local/bin"
 export LESS=-j.5R
 export PROMPT_COMMAND="pwd > /tmp/whereami"
-cd $(cat /tmp/whereami)
+#cd $(cat /tmp/whereami)
+
+export FZF_DEFAULT_COMMAND='find .'
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 eval $(thefuck --alias)
 
@@ -53,7 +57,8 @@ bindkey "\033[1;5C" forward-word
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 stty -ixon -ixoff
 
-TERMTITLE="<tt> </tt><span foreground='#ffe373'></span><tt> </tt>"
+#TERMTITLE="<tt> </tt><span foreground='#ffe373'></span><tt> </tt>"
+TERMTITLE="⌨️  "
 autoload -U add-zsh-hook
 add-zsh-hook -Uz chpwd (){ i3-msg -q title_format `pwd` }
 add-zsh-hook -Uz preexec (){
@@ -62,8 +67,9 @@ add-zsh-hook -Uz preexec (){
     i3-msg -q 'title_format "'"$TITLE_ESCAPED"'"' 2>/dev/null
 }
 add-zsh-hook -Uz precmd (){
-    local WINDOWID=$(xdotool search --pid $PPID)
-    i3-msg -q '[id="'"$WINDOWID"'"] title_format "'"$TERMTITLE$(pwd)"'"' 2>/dev/null
+    #local WINDOWID=$(xdotool search --pid $PPID)
+    #i3-msg -q '[id="'"$WINDOWID"'"] title_format "'"$TERMTITLE$(pwd)"'"' 2>/dev/null
+    i3-msg -q 'title_format "'"$TERMTITLE$(pwd)"'"'
 
     eval "$PROMPT_COMMAND"
 }
@@ -75,4 +81,8 @@ export EDITOR=/usr/bin/nvim
 
 if [ -f $HOME/.aliases ]; then
     source $HOME/.aliases
+fi
+
+if [ -f $HOME/.functions ]; then
+    source $HOME/.functions
 fi

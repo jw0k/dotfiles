@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill "$HOME/wallpapers/backiee-123357-landscape.jpg"
+feh --no-fehbg --bg-fill "$HOME/wallpapers/wallpaper.jpg"

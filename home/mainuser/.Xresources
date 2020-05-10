@@ -89,3 +89,7 @@ URxvt.keysym.Control-Left: \033[1;5D
 URxvt.urlLauncher: firefox
 URxvt.underlineURLs: true
 URxvt.urlButton: 1
+
+Sxiv.font: monospace:size=14
+Sxiv.background: #333333
+Sxiv.foreground: #ffffea

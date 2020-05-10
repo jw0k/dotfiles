@@ -61,6 +61,11 @@ Plugin 'Townk/vim-autoclose'
 
 Plugin 'chrisbra/unicode.vim'
 
+Plugin 'cpiger/NeoDebug'
+let g:neodbg_keymap_print_variable = '<Alt-P>'
+
+"Plugin 'pacha/vem-tabline'
+
 "if executable('clangd')
     "augroup lsp_clangd
         "autocmd!
@@ -229,9 +234,45 @@ nnoremap <leader>a :Ack!<space>
 
 noremap <leader>y "+y
 noremap <leader>p "+p
+noremap <leader>P "+P
 
 noremap <leader>s :nohlsearch<cr>
 nnoremap <leader>r :YcmCompleter RefactorRename<space>
+
+"function! DeleteCurrentBuffer() abort
+    "let current_buffer = bufnr('%')
+    "let next_buffer = vem_tabline#tabline.get_replacement_buffer()
+    "try
+        "exec 'confirm ' . current_buffer . 'bdelete'
+        "if next_buffer != 0
+            "exec next_buffer . 'buffer'
+        "endif
+    "catch /E516:/
+       "" If the operation is cancelled, do nothing
+    "endtry
+"endfunction
+"nmap <leader>q :call DeleteCurrentBuffer()<CR>
+"nmap <leader>h <Plug>vem_move_buffer_left-
+"nmap <leader>l <Plug>vem_move_buffer_right-
+"nmap <c-h> <Plug>vem_prev_buffer-
+"nmap <c-l> <Plug>vem_next_buffer-
+"" always show the tabline
+"let g:vem_tabline_show=2
+"let g:vem_tabline_show_number='index'
+
+"highlight VemTablineNormal           term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#242424 guibg=#cdcdcd gui=none
+"highlight VemTablineLocation         term=reverse cterm=none ctermfg=239 ctermbg=251 guifg=#666666 guibg=#cdcdcd gui=none
+"highlight VemTablineNumber           term=reverse cterm=none ctermfg=239 ctermbg=251 guifg=#666666 guibg=#cdcdcd gui=none
+"highlight VemTablineSelected         term=bold    cterm=bold ctermfg=0   ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
+"highlight VemTablineLocationSelected term=bold    cterm=none ctermfg=239 ctermbg=255 guifg=#666666 guibg=#ffffff gui=bold
+"highlight VemTablineNumberSelected   term=bold    cterm=none ctermfg=239 ctermbg=255 guifg=#666666 guibg=#ffffff gui=bold
+"highlight VemTablineShown            term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#242424 guibg=#cdcdcd gui=none
+"highlight VemTablineLocationShown    term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#666666 guibg=#cdcdcd gui=none
+"highlight VemTablineNumberShown      term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#666666 guibg=#cdcdcd gui=none
+"highlight VemTablineSeparator        term=reverse cterm=none ctermfg=246 ctermbg=251 guifg=#888888 guibg=#cdcdcd gui=none
+"highlight VemTablinePartialName      term=reverse cterm=none ctermfg=246 ctermbg=251 guifg=#888888 guibg=#cdcdcd gui=none
+"highlight VemTablineTabNormal        term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#242424 guibg=#4a4a4a gui=none
+"highlight VemTablineTabSelected      term=bold    cterm=bold ctermfg=0   ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
