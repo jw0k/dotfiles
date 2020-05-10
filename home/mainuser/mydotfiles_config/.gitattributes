@@ -1,3 +1,5 @@
 /home/mainuser/testowy filter=crypt diff=crypt
 /home/mainuser/notatki.txt filter=crypt diff=crypt
 /home/mainuser/.histfile.bak filter=crypt diff=crypt
+/home/mainuser/scripts/i3blocks/bose_battery.sh filter=crypt diff=crypt
+/home/mainuser/scripts/install_system.sh filter=crypt diff=crypt
