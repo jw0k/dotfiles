@@ -15,7 +15,7 @@ if [[ -z $SUDO_USER ]]; then
 fi
 
 # change owner/group of tracked files that are inside home directory:
-TRACKEDFILES=$(git --git-dir=$HOME/.mydotfiles/ --work-tree=/ ls-tree -r HEAD --full-tree --name-only)
+TRACKEDFILES=$(git --git-dir=$HOME/.mydotfiles/ --work-tree=/ ls-tree -r HEAD --full-tree --name-only -t)
 
 while read -r line; do
     if [[ $line == home/mainuser* ]]; then
