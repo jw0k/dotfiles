@@ -2,7 +2,7 @@
 
 first=true
 counter=0
-turbostat -q --interval 1 --show PkgTmp --cpu "" -S | while read line; do
+turbostat -q --interval 5 --show PkgTmp --cpu "" -S | while read line; do
     if [ "$first" = true ] ; then
         first=false
     else

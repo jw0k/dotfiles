@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 first=true
-turbostat -q --interval 1 --show Bzy_MHz --cpu "" -S | while read line; do
+turbostat -q --interval 5 --show Bzy_MHz --cpu "" -S | while read line; do
     if [ "$first" = true ] ; then
         first=false
     else
