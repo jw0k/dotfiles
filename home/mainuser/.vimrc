@@ -11,7 +11,7 @@ call vundle#begin()
 " zainstalowany z repo (AUR)
 Plugin 'scrooloose/nerdtree'
 let g:NERDTreeWinPos = "left"
-let g:NERDTreeWinSize = 31
+let g:NERDTreeWinSize = 50
 
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'scrooloose/nerdcommenter'
@@ -22,17 +22,37 @@ let g:airline_theme='powerlineish'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_working_path_mode='d'
+" ignore any directory that contains "build" in its name
+let g:ctrlp_custom_ignore = {'dir': 'build'}
 
 "Plugin 'prabirshrestha/async.vim'
 "Plugin 'prabirshrestha/vim-lsp'
 Plugin 'ycm-core/YouCompleteMe'
+
+"let g:ycm_log_level = 'debug'
+
 " Let clangd fully control code completion
 let g:ycm_clangd_uses_ycmd_caching = 0
 " Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+
+"clangd w wersji 10 nie chce dzialac z YCM :( (bez ponizszej linijki bedzie uzyty wbudowany w YCM clangd)
+"POPRAWKA ^^^^^ - clangd 10 jednak działa z YCM, ale potrzebny był fix w YCM, w pliku clangd_completer.py:
+
+"def CheckClangdVersion( clangd_path ):
+"       return True <------------------------------------- tu jest hak, który naprawia problem z clangd 10
+"       version = GetVersion( clangd_path )
+"       if version and version < MIN_SUPPORTED_VERSION:
+"         return False
+"       return True
+
 let g:ycm_clangd_binary_path = exepath("clangd")
+
+let g:ycm_clangd_args = ['--background-index=true', '--header-insertion=never']
+
 set completeopt-=preview
 "let g:ycm_autoclose_preview_window_after_insertion = 1
 "let g:ycm_error_symbol = '>'
@@ -59,12 +79,16 @@ Plugin 'huawenyu/neogdb.vim'
 
 Plugin 'Townk/vim-autoclose'
 
+Plugin 'chiedo/vim-case-convert'
+
 Plugin 'chrisbra/unicode.vim'
 
 Plugin 'cpiger/NeoDebug'
 let g:neodbg_keymap_print_variable = '<Alt-P>'
 
 "Plugin 'pacha/vem-tabline'
+
+Plugin 'tpope/vim-surround'
 
 "if executable('clangd')
     "augroup lsp_clangd
@@ -156,9 +180,14 @@ set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
 
+set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+set ffs=unix
+
 set hidden
 
 set scrolloff=10
+
+set noswapfile
 
 "ustawienia gruvboxa
 let g:gruvbox_italic=1
@@ -213,6 +242,9 @@ endif
 " Trigger autoread when changing buffers or coming back to vim.
 au FocusGained,BufEnter * :silent! !
 
+" wyłącz automatyczne dodawanie komentarza przy wstawianiu nowej linii
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 let mapleader = " "
 inoremap jk <Esc>
 inoremap JK <Esc>
@@ -228,6 +260,7 @@ noremap <leader>O O<Esc>
 
 noremap <leader>g :YcmCompleter GoTo<cr>
 noremap <leader>t :YcmCompleter GetType<cr>
+noremap <leader>u :YcmCompleter GoToReferences<cr>
 noremap <F4> :FSHere<cr>
 
 nnoremap <leader>a :Ack!<space>
@@ -238,6 +271,13 @@ noremap <leader>P "+P
 
 noremap <leader>s :nohlsearch<cr>
 nnoremap <leader>r :YcmCompleter RefactorRename<space>
+noremap <leader>z :cclose<cr><C-w>10l
+noremap <leader>Z :botright cwindow 16<cr>
+
+noremap <leader>w :set list!<cr>
+
+nnoremap : :let previousmode='n'<CR>:
+vnoremap : :<C-w>let previousmode='v'<CR>gv:
 
 "function! DeleteCurrentBuffer() abort
     "let current_buffer = bufnr('%')
@@ -273,9 +313,60 @@ nnoremap <leader>r :YcmCompleter RefactorRename<space>
 "highlight VemTablinePartialName      term=reverse cterm=none ctermfg=246 ctermbg=251 guifg=#888888 guibg=#cdcdcd gui=none
 "highlight VemTablineTabNormal        term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#242424 guibg=#4a4a4a gui=none
 "highlight VemTablineTabSelected      term=bold    cterm=bold ctermfg=0   ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
+"
+function! SwitchSidesAroundBinaryOperator()
+    " Save cursor position
+    let l:save = winsaveview()
+
+    execute "normal! vi)\<Esc>"
+    '<,'>s#\v%V(\S+)\s+(\S\S)\s+(\S+%V\S)#\3 \2 \1#e
+
+    " Move cursor to original position
+    call winrestview(l:save)
+endfunction
+noremap <leader>e :call SwitchSidesAroundBinaryOperator()<CR>
+
+function! ToggleIncludeSurroundingCharacters()
+    execute "normal mphE"
+    let char = matchstr(getline('.'), '\%' . col('.') . 'c.')
+    if char=='>'
+        execute "normal cs>\""
+    else
+        execute "normal cs\">"
+    endif
+    execute "normal `p"
+endfunction
+nmap <leader>" :call ToggleIncludeSurroundingCharacters()<CR>
+
+function! FormatJSONImpl(previousmode, line1, line2)
+    if a:previousmode=='v'
+        s/\v%V\_.*%V\_./\=system("python3 -m json.tool", submatch(0))
+    else
+        execute a:line1.",".a:line2."!python3 -m json.tool"
+    endif
+endfunction
+
+function! CompactJSONImpl(previousmode, line1, line2)
+    if a:previousmode=='v'
+        s/\v%V\_.*%V\_./\=system("python3 -c \"import json, sys; print(json.dumps(json.load(sys.stdin), separators=(',',':')))\"", submatch(0))
+    else
+        execute a:line1.",".a:line2."!python3 -c \"import json, sys; print(json.dumps(json.load(sys.stdin), separators=(',',':')))\""
+    endif
+endfunction
+
+function! FormatXMLImpl(previousmode, line1, line2)
+    if a:previousmode=='v'
+        '<,'>s/\v%V.*%V./\=system("python3 -c 'import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())'", submatch(0))
+    else
+        execute a:line1.",".a:line2."!python3 -c 'import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())'"
+    endif
+endfunction
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-com! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
+com! -range=% FormatXML :call FormatXMLImpl(previousmode, <line1>, <line2>)
+com! -range=% FormatJSON :call FormatJSONImpl(previousmode, <line1>, <line2>)
+com! -range=% CompactJSON :call CompactJSONImpl(previousmode, <line1>, <line2>)
+com! Format :execute 'silent !scripts/format.sh' | :redraw!
