@@ -14,7 +14,7 @@ zstyle :compinstall filename '/home/mainuser/.zshrc'
 export PATH="$PATH:/home/mainuser/scripts:/home/jacek/.local/bin"
 export LESS=-j.5R
 export PROMPT_COMMAND="pwd > /tmp/whereami"
-#cd $(cat /tmp/whereami)
+[ -f /tmp/whereami ] && cd "$(cat /tmp/whereami)"
 
 export FZF_DEFAULT_COMMAND='find .'
 source /usr/share/fzf/key-bindings.zsh
