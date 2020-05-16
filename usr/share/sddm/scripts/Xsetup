@@ -1,0 +1,6 @@
+#!/bin/sh
+# Xsetup - run as root before the login dialog appears
+
+# move mouse pointer a little bit away from the center of the screen
+# so it does not cover the avatar/username in SDDM
+xdotool mousemove --polar 60 300
