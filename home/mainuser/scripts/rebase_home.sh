@@ -25,6 +25,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo "rebasing on master..."
 sudo -E git --git-dir=$HOME/.mydotfiles/ --work-tree=/ rebase master
 
 if [ $? -ne 0 ]; then
