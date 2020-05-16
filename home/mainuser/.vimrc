@@ -11,7 +11,7 @@ call vundle#begin()
 " zainstalowany z repo (AUR)
 Plugin 'scrooloose/nerdtree'
 let g:NERDTreeWinPos = "left"
-let g:NERDTreeWinSize = 50
+let g:NERDTreeWinSize = 31
 
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'scrooloose/nerdcommenter'

@@ -26,4 +26,3 @@ xset dpms 600 600 600 &
     #nmcli device wifi rescan
     #nmcli device wifi connect ligo
 #fi
-
