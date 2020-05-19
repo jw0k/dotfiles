@@ -313,7 +313,7 @@ vnoremap : :<C-w>let previousmode='v'<CR>gv:
 "highlight VemTablinePartialName      term=reverse cterm=none ctermfg=246 ctermbg=251 guifg=#888888 guibg=#cdcdcd gui=none
 "highlight VemTablineTabNormal        term=reverse cterm=none ctermfg=0   ctermbg=251 guifg=#242424 guibg=#4a4a4a gui=none
 "highlight VemTablineTabSelected      term=bold    cterm=bold ctermfg=0   ctermbg=255 guifg=#242424 guibg=#ffffff gui=bold
-"
+
 function! SwitchSidesAroundBinaryOperator()
     " Save cursor position
     let l:save = winsaveview()
