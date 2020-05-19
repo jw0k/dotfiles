@@ -64,6 +64,7 @@ if [ $? -ne 0 ]; then
 fi
 
 if ${CHERRY_PICK_OK}; then
+    sudo -E git --git-dir=$HOME/.mydotfiles/ --work-tree=/ update-index --really-refresh
     echo "removing last ${NUMBER_OF_COMMITS_TO_MOVE} commit(s) from $CURRENT_COMMIT"
     sudo -E git --git-dir=$HOME/.mydotfiles/ --work-tree=/ reset --keep "HEAD~${NUMBER_OF_COMMITS_TO_MOVE}"
     if [ $? -ne 0 ]; then
