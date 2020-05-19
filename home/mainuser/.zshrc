@@ -86,3 +86,10 @@ fi
 if [ -f $HOME/.functions ]; then
     source $HOME/.functions
 fi
+
+# Workaround for a bug in systemd 245 regarding tab-completion in zsh. Should be fixed in systemd 246.
+# Remove this workaround when systemd 246 is released and available in Arch.
+_systemctl_unit_state() {
+  typeset -gA _sys_unit_state
+  _sys_unit_state=( $(__systemctl list-unit-files "$PREFIX*" | awk '{print $1, $2}') )
+}

@@ -1,0 +1,3 @@
+KERNEL=="event[0-9]*" ACTION=="add" SUBSYSTEM=="input", ATTRS{phys}=="00:0d:f0:bf:f7:df", ATTRS{uniq}=="", RUN+="/usr/bin/su jacek -c \"/home/mainuser/scripts/bose_qc_ii.sh add\""
+
+KERNEL=="event[0-9]*" ACTION=="remove" SUBSYSTEM=="input", ATTRS{phys}=="00:0d:f0:bf:f7:df", ATTRS{uniq}=="", RUN+="/usr/bin/su jacek -c \"/home/mainuser/scripts/bose_qc_ii.sh remove\""

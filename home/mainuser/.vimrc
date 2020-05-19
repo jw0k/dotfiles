@@ -370,3 +370,15 @@ com! -range=% FormatXML :call FormatXMLImpl(previousmode, <line1>, <line2>)
 com! -range=% FormatJSON :call FormatJSONImpl(previousmode, <line1>, <line2>)
 com! -range=% CompactJSON :call CompactJSONImpl(previousmode, <line1>, <line2>)
 com! Format :execute 'silent !scripts/format.sh' | :redraw!
+
+" line text-object
+xnoremap il g_o^
+onoremap il :normal vil<CR>
+xnoremap al $o0
+onoremap al :normal val<CR>
+
+" buffer text-object
+xnoremap i% GoggV
+onoremap i% :normal vi%<CR>
+
+noremap <silent> <F3> :let @+ = expand("%:p")<CR>

@@ -1,0 +1,10 @@
+[Unit]
+Description=Set CPU params (0x1fc)
+After=multi-user.target suspend.target hibernate.target hybrid-sleep.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/mainuser/scripts/cpu_set_params.sh
+
+[Install]
+WantedBy=multi-user.target suspend.target hibernate.target hybrid-sleep.target
