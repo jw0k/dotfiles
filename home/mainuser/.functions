@@ -1,0 +1,38 @@
+# makes it possible to run any function via sudo
+function fsudo {
+    sudo zsh -c "$functions[$1]" "$@"
+}
+
+# opens ranger with additional feature: pressing Q will exit to the selected path
+function r {
+    local IFS=$'\t\n'
+    local tempfile="$(mktemp -t tmp.XXXXXX)"
+    local ranger_cmd=(
+        command
+        ranger
+        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+    )
+
+    ${ranger_cmd[@]} "$@"
+    if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+        cd -- "$(cat "$tempfile")" || return
+    fi
+    command rm -f -- "$tempfile" 2>/dev/null
+}
+
+function sr {
+    local IFS=$'\t\n'
+    local tempfile="$(sudo mktemp -t tmp.XXXXXX)"
+    sudo chmod a+r "$tempfile"
+    local ranger_cmd=(
+        command
+        sudo -E ranger
+        --cmd="map Q chain shell echo %d > "$tempfile"; quitall"
+    )
+
+    ${ranger_cmd[@]} "$@"
+    if [[ -f "$tempfile" ]] && [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
+        cd -- "$(cat "$tempfile")" || return
+    fi
+    command sudo rm -f -- "$tempfile" 2>/dev/null
+}
