@@ -1,0 +1,138 @@
+1. Podłącz pendrive, sprawdź gdzie jest (lsblk). Załóżmy, że jest na /dev/sdb
+2. Wgraj obraz na pendrive: dd if=obraz.iso of=/dev/sdb bs=1M status=progress && sync,
+   progres można oglądać tak: cat /proc/meminfo | grep -i dirty
+3. Boot z pendrive'a
+4. Upewnij się, że BIOS bootuje jako UEFI, a nie legacy: ls /sys/firmware/efi/efivars
+
+5. loadkeys pl
+6. setfont Lat2-Terminus16
+7. systemctl start iwd
+8. iwctl
+   - device list
+   - station wlan0 scan
+   - station wlan0 get-networks
+   - station wlan0 connect ligo5
+   - exit
+9. ping wp.pl
+10. timedatectl set-ntp true
+
+11. Załóżmy, że twardy dysk jest pusty i znajduje się pod /dev/sda
+12. fdisk /dev/sda
+    - upewnij się że tablica partycji to GPT (p)
+    - stwórz nową partycję dla EFI (n, zmiana typu: t),
+      przynajmniej 100MiB
+    - stwórz nową partycję na / (n)
+    - zapisz i wyjdź (w)
+13. mkfs.fat /dev/sda1
+14. mkfs.ext4 /dev/sda2
+
+15. mount /dev/sda2 /mnt
+16. mkdir /mnt/efi
+17. mount /dev/sda1 /mnt/efi
+
+
+instalacja systemu:
+------------------------------------------------------------------------
+18. edytuj /etc/pacman.d/mirrorlist i przerzuć dobre mirrory na początek
+19. pacstrap /mnt base linux linux-firmware
+------------------------------------------------------------------------
+
+20. genfstab -U /mnt >> /mnt/etc/fstab (przejrzyj wygenerowany fstab)
+21. arch-chroot /mnt
+22. ln -sf /usr/share/zoneinfo/Poland /etc/localtime
+23. hwclock --systohc
+24. pacman -S neovim
+25. edytuj /etc/locale.gen i odkomentuj en_US.UTF-8 UTF-8
+26. locale-gen
+27. stwórz /etc/locale.conf i wpisz tam LANG=en_US.UTF-8
+28. stwórz /etc/hostname i wpisz tam nazwę hosta
+29. passwd (ustaw hasło roota)
+30. pacman -S networkmanager
+
+31. pacman -S grub efibootmgr intel-ucode
+32. grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+33. grub-mkconfig -o /boot/grub/grub.cfg
+
+34. exit
+35. reboot
+
+36. systemctl --now enable NetworkManager
+37. nmcli device wifi connect ligo5 --ask
+
+38. pacman -Syu zsh
+39. useradd -m -d /home/mainuser -s /usr/bin/zsh jacek
+40. passwd jacek
+41. pacman -Syu sudo
+42. EDITOR=nvim visudo (odkomentuj linijkę %sudo ALL=(ALL) ALL)
+43. pacman -Syu man
+44. groupadd sudo
+45. usermod -aG sudo jacek
+46. exit
+
+=================== zaloguj się jako jacek =================
+
+47. zainstaluj pakiety (zobacz pakiety.txt)
+
+48. sudo systemctl enable sddm
+49. reboot
+
+50. git clone https://aur.archlinux.org/yay.git
+51. cd yay
+52. makepkg -si
+
+53. do /etc/pacman.conf dodaj:
+[nestrepo]
+Server = https://github.com/jw0k/nestrepo/releases/download/current/
+#SigLevel = Never
+
+54. git clone --bare https://github.com/jw0k/dotfiles /home/mainuser/.mydotfiles
+
+
+----- opcjonalnie -------
+55. sudo systemctl start sshd
+56. z domowej maszyny: przekopiuj keyring gpg przez ssh:
+gpg --export-secret-key "Jacek Kuczera" | ssh jacek@192.168.1.20 sh -c 'tee > ~/klucz.gpg'
+57. na docelowej maszynie: gpg --import klucz.gpg
+58. rm klucz.gpg
+59. gpg --edit-key "Jacek Kuczera"
+    trust
+    5 (I trust ulimately)
+    y
+    quit
+--------------------------
+
+60. sudo pacman-key --lsign-key "Jacek Kuczera"
+
+61. secret-tool store --label='Password for dotfiles encryptor' name dotfiles_pass
+62. sudo git --git-dir=/home/mainuser/.mydotfiles --work-tree=/ checkout -f master
+63. dgit config include.path /home/mainuser/mydotfiles_config/.gitconfig
+64. sdgit checkout
+65. cd /
+66. sdgit checkout -- .
+67. reboot
+
+68. git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+69. W neovimie: :PluginInstall
+70. ~/.vim/bundle/YouCompleteMe/install.py --all (wymaga cmake, npm)
+
+71. sudo systemctl --now enable intel-undervolt
+72. sudo -E visudo, dodaj:
+
+%sudo   ALL=(root) NOPASSWD:SETENV: /home/mainuser/scripts/i3blocks/cpu_measure.sh
+%sudo   ALL=(root) NOPASSWD:SETENV: /home/mainuser/scripts/i3blocks/cpu_temp.sh
+%sudo   ALL=(root) NOPASSWD:SETENV: /home/mainuser/scripts/i3blocks/cpu_hz.sh
+
+73. skonfiguruj autorandr
+
+
+
+*UWAGA: w przypadku problemu z nadpisaniem plików przy instalacji pakietu, np.:
+
+ error: failed to commit transaction (conflicting files)
+ chili-sddm-theme: /usr/share/... exists in filesystem
+
+ można wymusić nadpisanie poprzez: yay -Syu chili-sddm-theme --overwrite='*'
+ (ostrożnie!)
+
+todo:
+- https://github.com/alexanderjeurissen/ranger_devicons

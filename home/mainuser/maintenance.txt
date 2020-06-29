@@ -1,0 +1,8 @@
+- update systemu: yay, restart
+- systemctl --failed
+- sudo journalctl -p 3 -xb
+
+pacnew/pacsave:
+- list_pacsave.sh
+- list_pacnew.sh
+- merge_pacnew.sh

@@ -1,0 +1,68 @@
+xorg (grupa)
+xf86-video-intel
+mesa
+sddm
+i3-wm
+ttf-dejavu
+terminator
+firefox
+git
+base-devel
+
+slack-desktop (aur)
+
+
+
+
+
+sxiv
+perl-image-exiftool
+rofi
+i3blocks-fixed (nestrepo)
+i3blocks-contrib (aur)
+gnome-screenshot
+compton-tryone-git (aur)
+noto-fonts-emoji
+dunst
+vhba-module
+cdemu-daemon
+bluez
+bluez-utils
+feh
+icdiff (aur)
+libsecret
+ddcutil
+openssl
+openssh
+i3lock-blur (aur) *********
+based-connect-git (aur)
+turbostat
+sysstat
+gnome-keyring
+net-tools
+nerd-fonts-complete (aur)
+ranger
+fzf
+thefuck
+zsh-autosuggestions
+chili-sddm-theme (aur)
+network-manager-applet
+spaceship-prompt-git (aur)
+clang
+cmake
+npm
+udisks2
+udiskie
+numlockx
+unclutter
+intel-undervolt
+bc
+
+
+
+networkmanager-openvpn
+unzip
+
+pulseaudio
+alsa-utils
+autorandr
