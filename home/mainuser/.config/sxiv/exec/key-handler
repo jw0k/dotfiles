@@ -1,0 +1,10 @@
+#!/bin/sh
+# Press C-x to activate to key handler!
+while read file
+do
+    case "$1" in
+    "C-c")
+        xclip -selection clipboard -t `file -b --mime-type "$file"` -i "$file"
+        ;;
+    esac
+done

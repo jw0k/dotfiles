@@ -1,0 +1,71 @@
+[weather]
+command=curl 'wttr.in/Wrocław?format=2'
+interval=120
+
+[disk]
+command=$SCRIPT_DIR/i3blocks/disk.sh
+interval=30
+min_width=rr 512G/512G (100%)
+align=center
+
+[memory]
+command=$SCRIPT_DIR/i3blocks/mem_measure.sh
+interval=5
+min_width=rr 16.0GB/16.0GB
+align=center
+
+# redirecting stdin from /dev/null will result in ignoring all the clicks
+[cpu_temperature]
+command=sudo $SCRIPT_DIR/i3blocks/cpu_temp.sh < /dev/null
+interval=persist
+min_width=rr 100°C rr
+align=center
+markup=pango
+
+[cpu_power]
+command=sudo $SCRIPT_DIR/i3blocks/cpu_measure.sh < /dev/null
+interval=persist
+min_width=rr 50W/50W rr
+align=center
+format=json
+
+[cpu_percent]
+command=$SCRIPT_DIR/i3blocks/cpu_percent.sh
+interval=5
+min_width=rr 1000
+align=center
+markup=pango
+
+[cpu_hz]
+command=sudo $SCRIPT_DIR/i3blocks/cpu_hz.sh < /dev/null
+interval=persist
+min_width=rr 4.0Ghz
+align=center
+
+[loadavg]
+command=$SCRIPT_DIR/i3blocks/loadavg.sh
+interval=5
+min_width=rr 99.9
+align=center
+
+[bose_battery]
+command=$SCRIPT_DIR/i3blocks/bose_battery.sh < /dev/null
+interval=persist
+min_width=rrrr 100%
+align=center
+
+[ps4_battery]
+command=$SCRIPT_DIR/i3blocks/ps4_battery.sh < /dev/null
+interval=120
+min_width=rrrr 100%
+align=center
+signal=10
+
+[volume]
+command=/usr/lib/i3blocks/volume-pulseaudio/volume-pulseaudio -S -H "🔊 " -M "🔉 " -L "🔈 " -X "🔇 " -F 3
+interval=persist
+
+[time]
+command=$SCRIPT_DIR/i3blocks/time.sh
+interval=10
+
