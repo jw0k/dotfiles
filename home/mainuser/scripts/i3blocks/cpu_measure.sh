@@ -7,7 +7,8 @@ turbostat -q --interval 5 --show PkgWatt --cpu "" -S | while read line; do
     if [ "$first" = true ] ; then
         first=false
     else
-        LIMIT=$(intel-undervolt read | grep -oP 'Long term package power: \K(\d+)')
+        #LIMIT=$(intel-undervolt read | grep -oP 'Long term package power: \K(\d+)')
+        LIMIT=$(echo "$(rdmsr 0x610 -f 14:0 -d)/2^$(rdmsr 0x606 -f 3:0 -d)" | bc -l | LC_ALL=C xargs printf "%.0f")
         CURR=$(echo "$line" | LC_ALL=C xargs printf "%.*f\n" 0)
 
         if (( CURR > 15 )); then
