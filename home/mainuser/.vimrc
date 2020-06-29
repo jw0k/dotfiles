@@ -90,6 +90,7 @@ let g:neodbg_keymap_print_variable = '<Alt-P>'
 
 Plugin 'tpope/vim-surround'
 
+Plugin 'ThePrimeagen/vim-be-good'
 "if executable('clangd')
     "augroup lsp_clangd
         "autocmd!

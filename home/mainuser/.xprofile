@@ -16,6 +16,7 @@ udiskie &
 numlockx &
 nm-applet &
 unclutter &
+dunst &
 xset dpms 600 600 600 &
 
 #instead of setting keyboard rate here, it is set in /etc/sddm.conf
