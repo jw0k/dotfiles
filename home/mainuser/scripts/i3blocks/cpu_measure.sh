@@ -11,19 +11,19 @@ turbostat -q --interval 5 --show PkgWatt --cpu "" -S | while read line; do
         LIMIT=$(echo "$(rdmsr 0x610 -f 14:0 -d)/2^$(rdmsr 0x606 -f 3:0 -d)" | bc -l | LC_ALL=C xargs printf "%.0f")
         CURR=$(echo "$line" | LC_ALL=C xargs printf "%.*f\n" 0)
 
-        if (( CURR > 15 )); then
+        if (( CURR > 25 )); then
             (( counter++ ));
         else
             counter=0
         fi
 
-        if (( LIMIT > 15 )); then
+        if (( LIMIT > 25 )); then
             BACKGROUND="#994444"
         else
             BACKGROUND=""
         fi
 
-        if (( CURR > 15 && counter > 1 )); then
+        if (( CURR > 25 && counter > 1 )); then
             FULLTEXT="⚡ ${CURR}W/${LIMIT}W 🔥"
         else
             FULLTEXT="⚡ ${CURR}W/${LIMIT}W"
