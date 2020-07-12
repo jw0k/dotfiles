@@ -123,7 +123,45 @@ gpg --export-secret-key "Jacek Kuczera" | ssh jacek@192.168.1.20 sh -c 'tee > ~/
 %sudo   ALL=(root) NOPASSWD:SETENV: /home/mainuser/scripts/i3blocks/cpu_hz.sh
 
 73. skonfiguruj autorandr
+    w trybie docked:
+        xrandr --output DP2-1 --primary --auto
+        autorandr --save docked
+    w trybie mobile:
+        xrandr ...
+        autorandr --save mobile
 
+
+74. localectl set-x11-keymap pl
+
+75. git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
+
+76. sudo systemctl --now enable bluetooth
+
+77. do pliku ~/.gitconfig dodaj:
+    [user]
+        email = jacek.kuczera@gmail.com
+        name = Jacek Kuczera
+    [include]
+        path = ~/.gitconfig_extra
+
+78. setfacl -m u:sddm:x ~/
+    setfacl -m u:sddm:r ~/.face.icon
+
+79. sudo systemctl --now enable fstrim.timer
+
+80. sudo dd if=/dev/zero of=/swapfile bs=1G count=32 status=progress
+81. sudo chmod 600 /swapfile
+82. sudo mkswap /swapfile
+83. sudo swapon /swapfile
+84. w /etc/fstab dodaj: /swapfile none swap defaults 0 0
+85. sprawdź physical offset używając: sudo filefrag -v /swapfile
+86. w /etc/default/grub dodaj w GRUB_CMDLINE_LINUX_DEFAULT: resume=UUID=... resume_offset=... (UUID można sprawdzić przez lsblk -f albo findmnt -no UUID -T /swapfile)
+87. cała linijka GRUB_CMDLINE_LINUX_DEFAULT="noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off mitigations=off resume=UUID=62d02aaf-6073-4f23-b708-d70e7a6b9b35 resume_offset=438272"
+88. sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+89. sudo systemctl --now enable cpupower
+
+90. Jeśli hasło do WiFi zapisało się w NetworkManager, to warto je stamtąd usunąć, bo jest trzymane plaintextem w /etc/NetworkManager/system-connections/ssid_sieci.nmconnection. Najprościej kliknąć prawym na nm-applet i "Edit connections...", a następnie w ustawieniach połączenia na zakładce "Wi-Fi Security" przy polu "Password" wybrać opcję "Store the password only for this user". Wcześniej powinien być zainstalowany gnome-keyring.
 
 
 *UWAGA: w przypadku problemu z nadpisaniem plików przy instalacji pakietu, np.:
@@ -133,6 +171,3 @@ gpg --export-secret-key "Jacek Kuczera" | ssh jacek@192.168.1.20 sh -c 'tee > ~/
 
  można wymusić nadpisanie poprzez: yay -Syu chili-sddm-theme --overwrite='*'
  (ostrożnie!)
-
-todo:
-- https://github.com/alexanderjeurissen/ranger_devicons

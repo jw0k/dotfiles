@@ -17,7 +17,7 @@ set $mod Mod4
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:Ubuntu 13
+font pango:Ubuntu 11
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -108,28 +108,28 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -196,6 +196,8 @@ for_window [window_role="About"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
+for_window [class="AssistantTransEu"] floating enable
+
 #for_window [class=".*"] border pixel 3
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -207,12 +209,29 @@ for_window [window_type="menu"] floating enable
 #}
 bar {
     tray_output primary
+    output primary
     i3bar_command i3bar
-    status_command SCRIPT_DIR=/home/mainuser/scripts i3blocks
+    status_command SCRIPT_DIR=/home/mainuser/scripts i3blocks -c /home/mainuser/.config/i3blocks/config
     #font pango:DejaVuSansMono Nerd Font 12
-    font pango:Hack Nerd Font 12
+    font pango:Hack Nerd Font 10
     position top
     tray_padding 0
+    modifier none
+
+    colors {
+        background #404040
+    }
+
+}
+
+bar {
+    tray_output none
+    output non-primary
+    i3bar_command i3bar
+    status_command SCRIPT_DIR=/home/mainuser/scripts i3blocks -c /home/mainuser/.config/i3blocks/config_non_primary
+    font pango:Hack Nerd Font 10
+    position top
+    #tray_padding 0
     modifier none
 
     colors {
@@ -250,15 +269,24 @@ focus_wrapping no
 focus_follows_mouse no
 bindsym Mod1+Tab workspace back_and_forth
 
-bindsym $mod+Prior exec --no-startup-id amixer set Master 1%+
-bindsym $mod+Next exec --no-startup-id amixer set Master 1%-
-bindsym $mod+End exec --no-startup-id amixer set Master toggle
+#bindsym $mod+Prior exec --no-startup-id amixer set Master 1%+
+#bindsym $mod+Next exec --no-startup-id amixer set Master 1%-
+#bindsym $mod+End exec --no-startup-id amixer set Master toggle
+
+bindsym $mod+Prior exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +3%
+bindsym $mod+Next exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3%
+bindsym $mod+End exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
 bindsym $mod+Ctrl+l exec --no-startup-id ~/scripts/lock.sh
 
-exec --no-startup-id exec bash $HOME/.fehbg
+#also executed in ~/.config/autorandr/postswitch
 exec_always --no-startup-id compton --config ~/.config/compton/compton.conf
+exec --no-startup-id exec bash $HOME/.fehbg
+
+exec_always --no-startup-id autorandr --change
 #exec_always --no-startup-id ~/dev/opacity_changer/build_release/opacity_changer
 #exec --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id ~/scripts/autoname/autoname_workspaces.py --norenumber_workspaces
 
 
 # Make the currently focused window a scratchpad
@@ -288,3 +316,12 @@ for_window [class="libreoffice-calc"] title_format "<tt></tt><span  background='
 for_window [class="libreoffice-impress"] title_format "<tt></tt><span  background='#073642' foreground='#d07e7e' >  </span><tt> </tt>%title"
 
 bindsym Print exec gnome-screenshot -i
+
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -3%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +3%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+exec --no-startup-id ~/scripts/run_cbatticon.sh
+focus_on_window_activation focus

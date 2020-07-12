@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 printf "⏰ "
-date '+%d.%m.%Y  %H:%M'
+LANG=pl_PL.UTF-8 date '+%a, %d.%m  %H:%M'

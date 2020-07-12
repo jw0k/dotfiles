@@ -1,0 +1,17 @@
+full_text=|
+separator=false
+separator_block_width=7
+
+[volume]
+command=/usr/lib/i3blocks/volume-pulseaudio/volume-pulseaudio -S -H "🔊 " -M "🔉 " -L "🔈 " -X "🔇 " -F 3
+interval=persist
+
+[separator]
+color=#666666
+
+[time]
+command=$SCRIPT_DIR/i3blocks/time.sh
+interval=10
+
+[margin]
+full_text=" "

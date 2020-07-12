@@ -1,6 +1,18 @@
 #!/bin/sh
 # Xsetup - run as root before the login dialog appears
 
+# enable all monitors and stack them horizontally
+monitors=$(xrandr --current | grep " connected " | awk '{print $1}')
+readarray -t monitors_array <<< "${monitors}"
+total=${#monitors_array[*]}
+cmd="xrandr "
+for (( i=0; i<(( $total - 1 )); i++ ))
+do
+    cmd+="--output ${monitors_array[$i]} --auto --left-of ${monitors_array[(( $i + 1 ))]} "
+done
+cmd+="--output ${monitors_array[(($total - 1 ))]} --auto"
+eval "$cmd"
+
 # move mouse pointer a little bit away from the center of the screen
 # so it does not cover the avatar/username in SDDM
 xdotool mousemove --polar 60 300

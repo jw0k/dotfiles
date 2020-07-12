@@ -66,3 +66,28 @@ unzip
 pulseaudio
 alsa-utils
 autorandr
+xclip
+msr-tools
+ttf-ubuntu-font-family
+stress
+htop
+pulseaudio-bluetooth
+python-pynvim
+qt5 (grupa)
+w3m (potrzebne, żeby ranger wyświetlał podglądy)
+sddm-sugar-dark (aur)
+
+remmina
+freerdp
+
+python-fontawesome (aur)
+python-i3ipc
+
+dmidecode
+cbatticon
+
+ack
+the_silver_searcher
+xdotool
+lssecret (nestrepo)
+networkmanager_auto (nestrepo)
