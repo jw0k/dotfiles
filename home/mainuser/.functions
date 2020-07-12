@@ -36,3 +36,15 @@ function sr {
     fi
     command sudo rm -f -- "$tempfile" 2>/dev/null
 }
+
+mknb() {
+	git checkout -b ${1}
+}
+
+punb() {
+    git push -u origin `git rev-parse --abbrev-ref HEAD`
+}
+
+dm() {
+    git diff ${1}^1...${1}^2
+}
