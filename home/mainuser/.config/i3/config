@@ -197,6 +197,7 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
 
 for_window [class="AssistantTransEu"] floating enable
+for_window [title="Remmina Remote Desktop Client"] floating enable
 
 #for_window [class=".*"] border pixel 3
 
