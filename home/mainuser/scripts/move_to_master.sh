@@ -72,7 +72,8 @@ if ${CHERRY_PICK_OK}; then
         exit 1
     fi
 
-    /home/mainuser/scripts/rebase_home.sh
+    /home/mainuser/scripts/rebase_on_master.sh home
+    /home/mainuser/scripts/rebase_on_master.sh work
 fi
 
 echo "done"
