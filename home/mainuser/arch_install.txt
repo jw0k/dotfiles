@@ -163,6 +163,9 @@ gpg --export-secret-key "Jacek Kuczera" | ssh jacek@192.168.1.20 sh -c 'tee > ~/
 
 90. Jeśli hasło do WiFi zapisało się w NetworkManager, to warto je stamtąd usunąć, bo jest trzymane plaintextem w /etc/NetworkManager/system-connections/ssid_sieci.nmconnection. Najprościej kliknąć prawym na nm-applet i "Edit connections...", a następnie w ustawieniach połączenia na zakładce "Wi-Fi Security" przy polu "Password" wybrać opcję "Store the password only for this user". Wcześniej powinien być zainstalowany gnome-keyring.
 
+91. sudo systemctl enable --now systemd-timesyncd.service
+92. ustaw "credsStore": "secretservice" w ~/.docker/config.json
+
 
 *UWAGA: w przypadku problemu z nadpisaniem plików przy instalacji pakietu, np.:
 

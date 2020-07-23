@@ -91,3 +91,6 @@ the_silver_searcher
 xdotool
 lssecret (nestrepo)
 networkmanager_auto (nestrepo)
+
+docker
+docker-credential-secretservice (AUR)
