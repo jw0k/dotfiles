@@ -77,7 +77,8 @@ Plugin 'schickling/vim-bufonly'
 
 Plugin 'huawenyu/neogdb.vim'
 
-Plugin 'Townk/vim-autoclose'
+"Plugin 'Townk/vim-autoclose'
+Plugin 'jiangmiao/auto-pairs'
 
 Plugin 'chiedo/vim-case-convert'
 
@@ -91,6 +92,9 @@ let g:neodbg_keymap_print_variable = '<Alt-P>'
 Plugin 'tpope/vim-surround'
 
 Plugin 'ThePrimeagen/vim-be-good'
+
+Plugin 'leafgarland/typescript-vim'
+
 "if executable('clangd')
     "augroup lsp_clangd
         "autocmd!
@@ -262,6 +266,7 @@ noremap <leader>O O<Esc>
 noremap <leader>g :YcmCompleter GoTo<cr>
 noremap <leader>t :YcmCompleter GetType<cr>
 noremap <leader>u :YcmCompleter GoToReferences<cr>
+noremap <leader>F :YcmCompleter FixIt<cr>
 noremap <F4> :FSHere<cr>
 
 nnoremap <leader>a :Ack!<space>
