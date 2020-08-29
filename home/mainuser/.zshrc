@@ -61,21 +61,28 @@ stty -ixon -ixoff
 TERMTITLE="⌨️  "
 WINDOWID=""
 autoload -U add-zsh-hook
-add-zsh-hook -Uz chpwd (){ i3-msg -q title_format `echo ${PWD/#$HOME/'~'}` }
+add-zsh-hook -Uz chpwd (){
+    #i3-msg -q title_format `echo ${PWD/#$HOME/'~'}`
+    xdotool set_window --name "$(echo ${PWD/#$HOME/'~'})" "$WINDOWID"
+}
 add-zsh-hook -Uz preexec (){
     local TITLE="$TERMTITLE$(echo ${PWD/#$HOME/'~'}) → $1"
     local TITLE_ESCAPED=$(echo $TITLE | sed 's/"/\\"/g')
-    i3-msg -q 'title_format "'"$TITLE_ESCAPED"'"' 2>/dev/null
+    #i3-msg -q 'title_format "'"$TITLE_ESCAPED"'"' 2>/dev/null
     WINDOWID=$(xdotool getactivewindow)
+    xdotool set_window --name "$TITLE" "$WINDOWID"
 }
 add-zsh-hook -Uz precmd (){
     #local WINDOWID=$(xdotool search --pid $PPID)
-    i3-msg -q '[id="'"$WINDOWID"'"] title_format "'"$TERMTITLE$(echo ${PWD/#$HOME/'~'})"'"' 2>/dev/null
+    #i3-msg -q '[id="'"$WINDOWID"'"] title_format "'"$TERMTITLE$(echo ${PWD/#$HOME/'~'})"'"' 2>/dev/null
+    [ ! -z "$WINDOWID" ] && \
+        xdotool set_window --name "$TERMTITLE$(echo ${PWD/#$HOME/'~'})" "$WINDOWID"
     #i3-msg -q 'title_format "'"$TERMTITLE$(pwd)"'"'
 
     eval "$PROMPT_COMMAND"
 }
-i3-msg -q title_format "$TERMTITLE`echo ${PWD/#$HOME/'~'}`"
+#i3-msg -q title_format "$TERMTITLE`echo ${PWD/#$HOME/'~'}`"
+xdotool getactivewindow set_window --name "$TERMTITLE$(echo ${PWD/#$HOME/'~'})"
 
 #for_window [class="(.*)Alacritty(.*)"] title_format "<tt> </tt><span foreground='#ffaa22'></span><tt> </tt>%title"
 

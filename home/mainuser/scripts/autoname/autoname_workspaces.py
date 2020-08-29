@@ -38,6 +38,8 @@ import fontawesome as fa
 
 from util import *
 
+from collections import Counter
+
 # Add icons here for common programs you use.  The keys are the X window class
 # (WM_CLASS) names (lower-cased) and the icons can be any text you want to
 # display.
@@ -168,9 +170,32 @@ def rename_workspaces(i3, icon_list_format='default'):
         new_num = n if RENUMBER_WORKSPACES else name_parts.num
         n += 1
 
+        all_terminal_workspace = len(workspace.leaves()) > 0
+        for w in workspace.leaves():
+            classes = xprop(w.window, 'WM_CLASS')
+            if not classes or len(classes) == 0 or classes[0] != 'terminator':
+                all_terminal_workspace = False
+                break
+
+        suffix = ''
+        if all_terminal_workspace:
+            lastParts = []
+
+            for w in workspace.leaves():
+                name = get_window_name(w.window)
+                if name:
+                    path = name.split('→')[0]
+                    path = path[2:].strip()
+                    lastPart = path.split('/')[-1]
+                    lastParts.append(lastPart)
+
+            if len(lastParts) > 0:
+                hist = Counter(lastParts)
+                suffix = ' ' + hist.most_common(1)[0][0]
+
         new_name = construct_workspace_name(
             NameParts(
-                num=new_num, shortname=name_parts.shortname, icons=new_icons))
+                num=new_num, shortname=name_parts.shortname, icons=new_icons)) + suffix
         if workspace.name == new_name:
             continue
         i3.command(
@@ -233,7 +258,7 @@ if __name__ == '__main__':
 
     # Call rename_workspaces() for relevant window events
     def event_handler(i3, e):
-        if e.change in ['new', 'close', 'move']:
+        if e.change in ['new', 'close', 'move', 'title']:
             rename_workspaces(i3, icon_list_format=args.icon_list_format)
 
     i3.on('window', event_handler)

@@ -1,0 +1,14 @@
+# This file is necessary so that the --title option is passed to terminator,
+# which in turn is necessary so that terminator does not change the window
+# title on its own. Without this option terminator tends to change the
+# window title to something like "/usr/bin/zsh" upon focusing the window.
+
+[Desktop Entry]
+Name=Terminator
+Comment=Multiple terminals in one window
+TryExec=terminator
+Exec=terminator --title ⌨️
+Icon=terminator
+Type=Application
+StartupNotify=true
+Keywords=terminal;shell;prompt;command;commandline;

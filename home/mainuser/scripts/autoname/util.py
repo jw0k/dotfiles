@@ -52,6 +52,17 @@ def xprop(win_id, property):
         logging.warn("Unable to get property for window '%d'" % win_id)
         return None
 
+def get_window_name(win_id):
+    try:
+        prop = proc.check_output(
+            ['xprop', '-id', str(win_id), '-notype', '-f', 'WM_NAME', '8u', " $0", 'WM_NAME'], stderr=proc.DEVNULL)
+        prop = prop.decode('utf-8')
+        prop = prop.split(' ', 1)[1]
+        return prop[1:-1]
+    except proc.CalledProcessError as e:
+        logging.warn("Unable to get window name for window '%d'" % win_id)
+        return None
+
 
 # Unicode subscript and superscript numbers
 _superscript = "⁰¹²³⁴⁵⁶⁷⁸⁹"
