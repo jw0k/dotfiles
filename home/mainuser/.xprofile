@@ -14,7 +14,7 @@ export SSH_AUTH_SOCK
 
 udiskie &
 numlockx &
-nm-applet &
+#nm-applet & # moved to nm-applet.service (user service in ~/.config/systemd/user/nm-applet.service)
 unclutter &
 dunst &
 xset dpms 600 600 600 &
