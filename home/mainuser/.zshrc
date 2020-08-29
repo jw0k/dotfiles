@@ -31,8 +31,8 @@ prompt spaceship
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-[[ -n "\033[A" ]] && bindkey -- "\033[A" up-line-or-beginning-search
-[[ -n "\033[B" ]] && bindkey -- "\033[B" down-line-or-beginning-search
+[[ -n "\033[A" ]] && bindkey -- "\033[A" up-line-or-beginning-search # up arrow
+[[ -n "\033[B" ]] && bindkey -- "\033[B" down-line-or-beginning-search # down arrow
 
 export SPACESHIP_PROMPT_SEPARATE_LINE=false
 export SPACESHIP_EXEC_TIME_SHOW=false
@@ -48,11 +48,12 @@ setopt SHARE_HISTORY
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
-bindkey "\033[H" beginning-of-line
-bindkey "\033[F" end-of-line
-bindkey "\033[3~" delete-char
-bindkey "\033[1;5D" backward-word
-bindkey "\033[1;5C" forward-word
+# use `sed -n l` to find out ansi escape codes
+bindkey "\033[H" beginning-of-line # home key
+bindkey "\033[F" end-of-line # end key
+bindkey "\033[3~" delete-char # delete key
+bindkey "\033[1;5D" backward-word # ctrl+left
+bindkey "\033[1;5C" forward-word # ctrl+right
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 stty -ixon -ixoff
