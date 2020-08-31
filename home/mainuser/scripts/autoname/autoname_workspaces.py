@@ -116,7 +116,8 @@ WINDOW_ICONS = {
     #'fa.icons['desktop'],
     'jetbrains-phpstorm': '📜',
     #fa.icons['code'],
-    'sxiv': '🖼️'
+    'sxiv': '🖼️',
+    'VirtualBox Machine': '🐢'
 }
 
 # This icon is used for any application not in the list above
