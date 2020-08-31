@@ -11,7 +11,7 @@ zstyle :compinstall filename '/home/mainuser/.zshrc'
 #fi
 
 #export PATH="/usr/lib/ccache/bin:$PATH"
-export PATH="$PATH:/home/mainuser/scripts:/home/jacek/.local/bin"
+export PATH="$PATH:/home/mainuser/scripts:/home/jacek/.local/bin:/home/mainuser/pscripts"
 export LESS=-j.5R
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 [ -f /tmp/whereami ] && cd "$(cat /tmp/whereami)"
