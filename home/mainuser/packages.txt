@@ -94,3 +94,5 @@ networkmanager_auto (nestrepo)
 
 docker
 docker-credential-secretservice (AUR)
+
+upower
