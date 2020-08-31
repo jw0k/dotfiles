@@ -368,6 +368,26 @@ function! FormatXMLImpl(previousmode, line1, line2)
     endif
 endfunction
 
+" Gather search hits, and display in a new scratch buffer.
+function! GatherImpl(pattern)
+    if !empty(a:pattern)
+        let save_cursor = getpos(".")
+        let orig_ft = &ft
+        " append search hits to results list
+        let results = []
+        execute "g/" . a:pattern . "/call add(results, getline('.'))"
+        call setpos('.', save_cursor)
+        if !empty(results)
+          " put list in new scratch buffer
+            enew
+            setlocal buftype=nofile bufhidden=hide noswapfile
+            execute "setlocal filetype=".orig_ft
+            call append(1, results)
+            1d  " delete initial blank line
+        endif
+    endif
+endfunction
+
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
@@ -376,6 +396,7 @@ com! -range=% FormatXML :call FormatXMLImpl(previousmode, <line1>, <line2>)
 com! -range=% FormatJSON :call FormatJSONImpl(previousmode, <line1>, <line2>)
 com! -range=% CompactJSON :call CompactJSONImpl(previousmode, <line1>, <line2>)
 com! Format :execute 'silent !scripts/format.sh' | :redraw!
+com! -nargs=1 Gather :call GatherImpl(<args>)
 
 " line text-object
 xnoremap il g_o^
@@ -388,3 +409,4 @@ xnoremap i% GoggV
 onoremap i% :normal vi%<CR>
 
 noremap <silent> <F3> :let @+ = expand("%:p")<CR>
+
