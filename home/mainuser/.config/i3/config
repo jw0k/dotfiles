@@ -227,7 +227,7 @@ bar {
 
 bar {
     tray_output none
-    output non-primary
+    output nonprimary
     i3bar_command i3bar
     status_command SCRIPT_DIR=/home/mainuser/scripts i3blocks -c /home/mainuser/.config/i3blocks/config_non_primary
     font pango:Hack Nerd Font 10
