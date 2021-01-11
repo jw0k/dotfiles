@@ -326,3 +326,5 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 exec --no-startup-id ~/scripts/run_cbatticon.sh
 focus_on_window_activation focus
+
+bindsym $mod+n exec --no-startup-id ~/scripts/nmcli_toggle.py devels
