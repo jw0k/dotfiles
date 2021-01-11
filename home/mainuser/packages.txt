@@ -96,3 +96,5 @@ docker
 docker-credential-secretservice (AUR)
 
 upower
+
+gkeyring

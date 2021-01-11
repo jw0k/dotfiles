@@ -26,8 +26,9 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_working_path_mode='d'
-" ignore any directory that contains "build" in its name
-let g:ctrlp_custom_ignore = {'dir': 'build'}
+" ignore any directory that contains ".clangd", ".cache" or "build" in its name
+let g:ctrlp_custom_ignore = {'dir': '\.clangd\|\.cache\|build'}
+let g:ctrlp_show_hidden = 1
 
 "Plugin 'prabirshrestha/async.vim'
 "Plugin 'prabirshrestha/vim-lsp'

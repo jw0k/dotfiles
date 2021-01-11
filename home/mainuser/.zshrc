@@ -33,6 +33,8 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 [[ -n "\033[A" ]] && bindkey -- "\033[A" up-line-or-beginning-search # up arrow
 [[ -n "\033[B" ]] && bindkey -- "\033[B" down-line-or-beginning-search # down arrow
+bindkey -- "^P" up-line-or-beginning-search # ctrl+p
+bindkey -- "^N" down-line-or-beginning-search # ctrl+n
 
 export SPACESHIP_PROMPT_SEPARATE_LINE=false
 export SPACESHIP_EXEC_TIME_SHOW=false
