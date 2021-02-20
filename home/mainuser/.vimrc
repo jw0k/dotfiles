@@ -208,6 +208,8 @@ highlight ExtraWhitespace ctermbg=red guibg=#e53a25
 "match ExtraWhitespace /\s\+$/
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhitespace /\s\+$/
+"bez tego nvim podświetla trailing whitespace na czerwono podczas pisania w plikach .go
+highlight! link goSpaceError NONE
 
 " Save current view settings on a per-window, per-buffer basis.
 function! AutoSaveWinView()
@@ -250,6 +252,9 @@ au FocusGained,BufEnter * :silent! !
 
 " wyłącz automatyczne dodawanie komentarza przy wstawianiu nowej linii
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+" ustaw wcięcie 2 spacji w plikach YAML
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 let mapleader = " "
 inoremap jk <Esc>

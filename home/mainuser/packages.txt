@@ -98,3 +98,4 @@ docker-credential-secretservice (AUR)
 upower
 
 gkeyring
+ntfs-3g
