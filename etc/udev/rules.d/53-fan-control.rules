@@ -1,0 +1,1 @@
+SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="fan_controller_ch340" RUN+="/usr/bin/su jacek -c \"/home/mainuser/scripts/set_fan_controller_baud_rate.sh\""
