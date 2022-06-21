@@ -328,3 +328,7 @@ exec --no-startup-id ~/scripts/run_cbatticon.sh
 focus_on_window_activation focus
 
 bindsym $mod+n exec --no-startup-id ~/scripts/nmcli_toggle.py devels
+
+bindsym ctrl+space exec --no-startup-id dunstctl close
+bindsym ctrl+shift+space exec --no-startup-id dunstctl close-all
+bindsym ctrl+grave exec --no-startup-id dunstctl history-pop

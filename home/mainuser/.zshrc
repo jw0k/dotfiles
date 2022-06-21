@@ -38,6 +38,7 @@ bindkey -- "^N" down-line-or-beginning-search # ctrl+n
 
 export SPACESHIP_PROMPT_SEPARATE_LINE=false
 export SPACESHIP_EXEC_TIME_SHOW=false
+export SPACESHIP_GCLOUD_SHOW=false
 
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install

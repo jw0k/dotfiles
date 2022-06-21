@@ -21,6 +21,7 @@ then
         archive="/var/cache/pacman/pkg/${pkg}-${ver}-"
     fi
 
+    # ${1/\//} removes the first slash from file path, e.g. /etc/pacman.conf becomes etc/pacman.conf
     icdiff <(bsdtar -xOf "${archive}"* "${1/\//}") "$1"
     exit 0
 else

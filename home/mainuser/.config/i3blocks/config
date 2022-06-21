@@ -62,7 +62,7 @@ align=center
 signal=10
 
 [volume]
-command=/usr/lib/i3blocks/volume-pulseaudio/volume-pulseaudio -S -H "🔊 " -M "🔉 " -L "🔈 " -X "🔇 " -F 3
+command=/usr/lib/i3blocks/volume-pulseaudio/volume-pulseaudio -S -H " 🔊" -M "🔉" -L "🔈" -X "🔇" -F '${SYMB} ${VOL}%'
 interval=persist
 
 [time]
