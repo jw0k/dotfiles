@@ -284,7 +284,7 @@ bindsym $mod+Ctrl+l exec --no-startup-id ~/scripts/lock.sh
 exec_always --no-startup-id compton --config ~/.config/compton/compton.conf
 exec --no-startup-id exec bash $HOME/.fehbg
 
-exec_always --no-startup-id autorandr --load docked
+exec_always --no-startup-id autorandr --change
 #exec_always --no-startup-id ~/dev/opacity_changer/build_release/opacity_changer
 #exec --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id ~/scripts/autoname/autoname_workspaces.py --norenumber_workspaces
